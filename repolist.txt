@@ -1,0 +1,3 @@
+https://github.com/NorthernWidget-Skunkworks/Margay_Library.git
+https://github.com/NorthernWidget-Skunkworks/Dyson_Library.git
+https://github.com/NorthernWidget-Skunkworks/Tally_Library.git
