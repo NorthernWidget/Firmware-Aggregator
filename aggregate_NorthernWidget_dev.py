@@ -15,7 +15,7 @@ outgit_path = 'NorthernWidget__test'
 
 # Get from file list
 repo_list = []
-with open('repolist.txt', 'r') as f:
+with open('../repolist.txt', 'r') as f:
     repo_paths = f.read().splitlines() 
 
 for remote_repo in repo_paths:
@@ -68,6 +68,9 @@ for codefile in codefiles_raw:
     if outgit_path not in codefile:
         codefiles.append(codefile)
 
+print ("")
+print("Merging code files into single output repository")
+print(" >>> Warn: add check to see if file already exists")
 for codefile in codefiles:
     copyfile(codefile, outgit_path + os.sep + 'src' + os.sep +  os.path.basename(os.path.normpath(codefile)))
     
