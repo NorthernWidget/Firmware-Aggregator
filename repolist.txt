@@ -13,3 +13,4 @@ https://github.com/NorthernWidget/TP-Downhole_Library.git
 https://github.com/NorthernWidget/Maxbotix_Library.git
 https://github.com/NorthernWidget-Skunkworks/Dyson_Library.git
 https://github.com/NorthernWidget-Skunkworks/Tally_Library.git
+https://github.com/greiman/SdFat.git
