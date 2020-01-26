@@ -12,7 +12,9 @@ import os
 import shutil
 
 outgit_directory = 'NWraw'
-combirepo_directory = 'NW-libs' # Make this beforehand
+combirepo_directory_local = 'NW-libs-local' # Make this beforehand
+combirepo_gitpath = 'https://github.com/NorthernWidget/NorthernWidget-libraries.git' # Make this beforehand
+combirepo_directory_git = 'NorthernWidget-libraries'
 
 # If output path is not yet made
 try:
@@ -89,11 +91,28 @@ try:
 except:
     pass
 
+# This is now unnecessary
 for code_file in code_files:
-    outpath = combirepo_directory + os.sep +  os.path.basename(os.path.normpath(code_file))
+    outpath = combirepo_directory_local + os.sep +  os.path.basename(os.path.normpath(code_file))
     shutil.copyfile(code_file, outpath)
 
 # Eventually: add tool to combine keywords.txt with appropriate preservation
 # of the different sections for syntax highlighting
 
+# Now move this all to git
+try:
+    # If not yet cloned
+    git.Repo.clone_from(combirepo_gitpath, combirepo_directory_git)
+    print(combirepo_directory_git, "successfully cloned.")
+except:
+    # Otherwise, pull an update
+    g = git.cmd.Git(combirepo_directory_git)
+    outmsg = g.pull()
+    print(combirepo_directory_git, "-", outmsg)
 
+print("Updating code files in", combirepo_directory_git)
+for code_file in code_files:
+    outpath = combirepo_directory_git + os.sep +  os.path.basename(os.path.normpath(code_file))
+    shutil.copyfile(code_file, outpath)
+    
+# Git add & commit
