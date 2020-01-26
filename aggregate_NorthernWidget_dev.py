@@ -11,12 +11,12 @@ import git
 import os
 import shutil
 
-outgit_path = 'NorthernWidget__test'
-combirepo_path = 'NW-libs' # Make this beforehand
+outgit_directory = 'NWraw'
+combirepo_directory = 'NW-libs' # Make this beforehand
 
 # If output path is not yet made
 try:
-    os.mkdir(outgit_path)
+    os.mkdir(outgit_directory)
 except:
     pass
 
@@ -27,7 +27,7 @@ with open('repolist.txt', 'r') as f:
 
 for remote_repo in repo_paths:
     outfolder_name = os.path.basename(os.path.normpath(remote_repo)).split('.')[0]
-    outfolder_path = outgit_path + os.path.sep + outfolder_name
+    outfolder_path = outgit_directory + os.path.sep + outfolder_name
     try:
         # If not yet cloned
         git.Repo.clone_from(remote_repo, outfolder_path)
@@ -38,75 +38,62 @@ for remote_repo in repo_paths:
         outmsg = g.pull()
         print(outfolder_name, "-", outmsg)
     
-
+       
 # List of all files with code
 
 # Based on:
 # https://stackoverflow.com/questions/12420779/simplest-way-to-get-the-equivalent-of-find-in-python
-def listfiles(folder=os.getcwd(), extensions=None):
+def listfiles(folder=os.getcwd(), extensions=None, filenames=None):
     outlist = []
-    if type(extensions) is str:
-        extensions = [extensions]
-    for root, folders, files in os.walk(folder):
-        for filename in folders + files:
-            if extensions is None:
-                outlist.append(os.path.join(root, filename))
-            else:
-                for extension in extensions:
-                    if extension in filename:
-                        outlist.append(os.path.join(root, filename))
+    if extensions is not None:
+        if type(extensions) is str:
+            extensions = [extensions]
+        for root, folders, files in os.walk(folder):
+            for _filename in folders + files:
+                if extensions is '*':
+                    outlist.append(os.path.join(root, _filename))
+                else:
+                    for extension in extensions:
+                        if extension in _filename:
+                            outlist.append(os.path.join(root, _filename))
+    if filenames is not None:
+        if type(filenames) is str:
+            filenames = [filenames]
+        for root, folders, files in os.walk(folder):
+            for _filename in folders + files:
+                if filenames is '*':
+                    outlist.append(os.path.join(root, _filename))
+                else:
+                    for filename in filenames:
+                        if _filename == filename:
+                            outlist.append(os.path.join(root, filename))
+        
     return outlist
 
 # Make sure not to double count in case root directory is shared
 # between inputs and outputs
-codefiles = []
-codefiles_raw = listfiles(extensions=['.cpp', '.h'])
-for codefile in codefiles_raw:
-    if outgit_path not in codefile:
-        codefiles.append(codefile)
+code_files = listfiles(extensions=['.cpp', '.h'])
+keyword_files = listfiles(filenames='keywords.txt')
 
 print ("")
 print("Merging code files into single output repository")
-print(" >>> Warn: add check to see if file already exists")
-for codefile in codefiles:
-    copyfile(codefile, outgit_path + os.sep + 'src' + os.sep +  os.path.basename(os.path.normpath(codefile)))
+# No check for overlapping names from different libraries
+# Could do this with basenames from code_files
+
+# Also: no check that these files are in the current desired output directory
 
 
+# If output path is not yet made
+try:
+    os.mkdir(combirepo_path)
+except:
+    pass
+
+for code_file in code_files:
+    outpath = combirepo_directory + os.sep +  os.path.basename(os.path.normpath(code_file))
+    shutil.copyfile(code_file, outpath)
+
+# Eventually: add tool to combine keywords.txt with appropriate preservation
+# of the different sections for syntax highlighting
 
 
-
-
-
- 
-# Below here to merge into a single repository that we then upload
-def recursive_overwrite(src, dest, ignore=None):
-    """
-    https://stackoverflow.com/questions/12683834/how-to-copy-directory-recursively-in-python-and-overwrite-all
-    """
-    if os.path.isdir(src):
-        if not os.path.isdir(dest):
-            os.makedirs(dest)
-        files = os.listdir(src)
-        if ignore is not None:
-            ignored = ignore(src, files)
-        else:
-            ignored = set()
-        for f in files:
-            if f not in ignored:
-                recursive_overwrite(os.path.join(src, f), 
-                                    os.path.join(dest, f), 
-                                    ignore)
-    else:
-        copyfile(src, dest)
-
-
-recursive_overwrite(src=outgit_path, dest=combirepo_path, 
-                    ignore=ignore_patterns('^.git'))
-
-    
-for subpath in ['src']:
-    try:
-        os.mkdir(outgit_path + os.path.sep + subpath)
-    except:
-        pass
-   
