@@ -58,9 +58,9 @@ for remote_repo in repo_paths:
         # Otherwise, pull an update
         g = git.cmd.Git(outfolder_path)
         outmsg = g.pull()
-        print(outfolder_name, "-", outmsg)
-    
+        print("Updates pulled from", outfolder_name, "-", outmsg)
        
+
 # List of all files with code
 
 # Based on:
@@ -139,6 +139,7 @@ for i in range(len(paths_at_git_directory)):
     dest = paths_at_git_directory[i]
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     shutil.copy(source, dest)
+print("Updates added to", all_libs_directory_git)
 
 # Git add & commit
 print("Staging files for commit")
