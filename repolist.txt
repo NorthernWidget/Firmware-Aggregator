@@ -1,4 +1,22 @@
-https://github.com/NorthernWidget-Skunkworks/Margay_Library.git
+# All libraries required for Northern Widget loggers and sensors
+
+# Lines with a '#' as the very first character will be ignored.
+# Empty lines will be ignored
+
+####################
+# NON-NW LIBRARIES #
+####################
+
+# On-board component libraries
+https://github.com/adafruit/Adafruit_ADS1X15.git
+https://github.com/greiman/SdFat
+
+
+################
+# NW LIBRARIES #
+################
+
+# On-board component libraries
 https://github.com/NorthernWidget/MCP3421.git
 https://github.com/NorthernWidget/DS3231_Logger.git
 https://github.com/NorthernWidget/DS3231.git
@@ -8,7 +26,16 @@ https://github.com/NorthernWidget/VEML6030.git
 https://github.com/NorthernWidget/MS5803.git
 https://github.com/NorthernWidget/LTC2495.git
 https://github.com/NorthernWidget/TCA9534.git
+https://github.com/NorthernWidget-Skunkworks/MCP23018.git
+https://github.com/NorthernWidget-Skunkworks/MCP4725.git
+https://github.com/NorthernWidget/MS5803.git
+
+# Data logger libraries
+https://github.com/NorthernWidget-Skunkworks/Margay_Library.git
+
+# Sensor libraries
 https://github.com/NorthernWidget/TP-Downhole_Library.git
 https://github.com/NorthernWidget/Maxbotix_Library.git
 https://github.com/NorthernWidget-Skunkworks/Dyson_Library.git
 https://github.com/NorthernWidget-Skunkworks/Tally_Library.git
+

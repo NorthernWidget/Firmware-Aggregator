@@ -30,6 +30,22 @@ except:
 repo_list = []
 with open('repolist.txt', 'r') as f:
     repo_paths = f.read().splitlines() 
+    
+# Remove comments and blank lines
+_topop = []
+for i in range(len(repo_paths)):
+    if len(repo_paths[i]) == 0:
+        _topop.append(i)
+    elif repo_paths[i][0] == '#':
+        _topop.append(i)
+
+# Pop the blank lines from the list -- need to start at the highest
+# indices so the index positions are not shifted.
+# We indexed from lowest to highest in the loop, so just need to reverse order
+_topop = _topop[::-1]
+
+for i in _topop:
+    repo_paths.pop(i)
 
 for remote_repo in repo_paths:
     outfolder_name = os.path.basename(os.path.normpath(remote_repo)).split('.')[0]
@@ -128,8 +144,8 @@ for i in range(len(paths_at_git_directory)):
 print("Staging files for commit")
 COMMIT_MESSAGE = 'Automated update ' + str( datetime.utcnow() ) + ' UTC'
 repo.index.add('*')
-repo.git.add(update=True)
 changedFiles = [ item.a_path for item in repo.index.diff(None) ]
+repo.git.add(update=True)
 if len(changedFiles) == 0:
     print("No files changed; no commit to make")
 else:
