@@ -60,11 +60,6 @@ for remote_repo in repo_paths:
         outmsg = g.pull()
         print("Updates pulled from", outfolder_name, "-", outmsg)
        
-# Make sure not to double count in case root directory is shared
-# between inputs and outputs
-code_files = listfiles(folder=os.getcwd() + os.sep + outgit_directory, extensions=['.cpp', '.h'])
-keyword_files = listfiles(folder=os.getcwd() + os.sep + outgit_directory, filenames='keywords.txt')
-
 print ("")
 print("Merging code files into single output repository")
 # No check for overlapping names from different libraries
