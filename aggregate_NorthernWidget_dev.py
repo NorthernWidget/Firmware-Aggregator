@@ -58,7 +58,7 @@ for remote_repo in repo_paths:
         # Otherwise, pull an update
         g = git.cmd.Git(outfolder_path)
         outmsg = g.pull()
-        print("Updates pulled from", outfolder_name, "-", outmsg)
+        print("Pulling updates from", outfolder_name, "-", outmsg)
        
 print ("")
 print("Merging code files into single output repository")
@@ -99,16 +99,18 @@ for i in range(len(paths_at_git_directory)):
 print("Updates added to", all_libs_directory_git)
 
 # Git add & commit
+
 print("Staging files for commit")
 COMMIT_MESSAGE = 'Automated update ' + str( datetime.utcnow() ) + ' UTC'
 repo.index.add('*')
-changedFiles = [ item.a_path for item in repo.index.diff(None) ]
 repo.git.add(update=True)
-if len(changedFiles) == 0:
+stagedChanges = repo.index.diff("HEAD")
+if len(stagedChanges) == 0:
     print("No files changed; no commit to make")
 else:
     print("Committing and pushing changes")
     repo.index.commit(COMMIT_MESSAGE)
+    print("Commit message:", COMMIT_MESSAGE)
     origin = repo.remote(name='origin')
     origin.push()
 print("Done")
