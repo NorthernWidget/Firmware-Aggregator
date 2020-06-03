@@ -1,20 +1,24 @@
-#! /usr/bin/env/python3
+#! /usr/bin/env python3
 
 """
 Clones all relevant Northern Widget repositories into a single
-master repo to require only a single library install for end-users
-"""
+master repo to require only a single library install for end users.
 
-# Parser
+(Install via copy/paste)
+
+Written by A. Wickert
+"""
 
 import git
 import os
 import shutil
+import glob
+from datetime import datetime
 
 outgit_directory = 'NWraw'
-combirepo_directory_local = 'NW-libs-local' # Make this beforehand
-combirepo_gitpath = 'https://github.com/NorthernWidget/NorthernWidget-libraries.git' # Make this beforehand
-combirepo_directory_git = 'NorthernWidget-libraries'
+all_libs_directory_git = 'NorthernWidget-libraries'
+all_libs_gitpath = 'https://github.com/NorthernWidget-Skunkworks/NorthernWidget-libraries.git' # Make this beforehand
+git_remoteurl = 'git@github.com:NorthernWidget-Skunkworks/NorthernWidget-libraries.git'
 
 # If output path is not yet made
 try:
@@ -52,7 +56,7 @@ def listfiles(folder=os.getcwd(), extensions=None, filenames=None):
             extensions = [extensions]
         for root, folders, files in os.walk(folder):
             for _filename in folders + files:
-                if extensions is '*':
+                if extensions == '*':
                     outlist.append(os.path.join(root, _filename))
                 else:
                     for extension in extensions:
@@ -63,7 +67,7 @@ def listfiles(folder=os.getcwd(), extensions=None, filenames=None):
             filenames = [filenames]
         for root, folders, files in os.walk(folder):
             for _filename in folders + files:
-                if filenames is '*':
+                if filenames == '*':
                     outlist.append(os.path.join(root, _filename))
                 else:
                     for filename in filenames:
@@ -74,45 +78,63 @@ def listfiles(folder=os.getcwd(), extensions=None, filenames=None):
 
 # Make sure not to double count in case root directory is shared
 # between inputs and outputs
-code_files = listfiles(extensions=['.cpp', '.h'])
-keyword_files = listfiles(filenames='keywords.txt')
+code_files = listfiles(folder=os.getcwd() + os.sep + outgit_directory, extensions=['.cpp', '.h'])
+keyword_files = listfiles(folder=os.getcwd() + os.sep + outgit_directory, filenames='keywords.txt')
 
 print ("")
 print("Merging code files into single output repository")
 # No check for overlapping names from different libraries
 # Could do this with basenames from code_files
 
-# Also: no check that these files are in the current desired output directory
-
-
-# If output path is not yet made
+# If path to library folders without ".git" hidden directories is not yet given
 try:
-    os.mkdir(combirepo_path)
+    os.mkdir(all_libs_nogit_directory_local)
 except:
     pass
 
-# This is now unnecessary
-for code_file in code_files:
-    outpath = combirepo_directory_local + os.sep +  os.path.basename(os.path.normpath(code_file))
-    shutil.copyfile(code_file, outpath)
+# This strips off the *.git but doesn't allow overwriting, hence the need to
+# do this step first
+#shutil.copytree( outgit_directory, all_libs_nogit_directory_local,
+#                 ignore=shutil.ignore_patterns('*.git*') )
 
-# Eventually: add tool to combine keywords.txt with appropriate preservation
-# of the different sections for syntax highlighting
 
-# Now move this all to git
+# Then clone/update the git repo
 try:
-    # If not yet cloned
-    git.Repo.clone_from(combirepo_gitpath, combirepo_directory_git)
-    print(combirepo_directory_git, "successfully cloned.")
+    # If repo doesn't exist, check it out
+    repo = git.Repo.clone_from(git_remoteurl, all_libs_directory_git)
+    print(all_libs_directory_git, "successfully cloned.")
 except:
-    # Otherwise, pull an update
-    g = git.cmd.Git(combirepo_directory_git)
-    outmsg = g.pull()
-    print(combirepo_directory_git, "-", outmsg)
+    repo = git.Repo(all_libs_directory_git)
+    outmsg = repo_origin = repo.remotes.origin
+    repo_origin.pull()
+    print("Updates pulled from", all_libs_directory_git, "-", outmsg)
 
-print("Updating code files in", combirepo_directory_git)
-for code_file in code_files:
-    outpath = combirepo_directory_git + os.sep +  os.path.basename(os.path.normpath(code_file))
-    shutil.copyfile(code_file, outpath)
-    
+# glob ignores hidden files by default (including those from git)
+paths_at_origin = glob.glob(outgit_directory+'/**', recursive=True)
+filenames_at_origin = [f for f in paths_at_origin if os.path.isfile(f)]
+paths_at_git_directory = []
+for filename in filenames_at_origin:
+    paths_at_git_directory.append( all_libs_directory_git
+                                   + filename.split(outgit_directory)[-1] )
+
+# And then copy them into the destination folder
+for i in range(len(paths_at_git_directory)):
+    source = filenames_at_origin[i]
+    dest = paths_at_git_directory[i]
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    shutil.copy(source, dest)
+
 # Git add & commit
+print("Staging files for commit")
+COMMIT_MESSAGE = 'Automated update ' + str( datetime.utcnow() ) + ' UTC'
+repo.index.add('*')
+repo.git.add(update=True)
+changedFiles = [ item.a_path for item in repo.index.diff(None) ]
+if len(changedFiles) == 0:
+    print("No files changed; no commit to make")
+else:
+    print("Committing and pushing changes")
+    repo.index.commit(COMMIT_MESSAGE)
+    origin = repo.remote(name='origin')
+    origin.push()
+print("Done")
