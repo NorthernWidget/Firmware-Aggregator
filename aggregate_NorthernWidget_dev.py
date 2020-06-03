@@ -76,12 +76,6 @@ try:
 except:
     pass
 
-# This strips off the *.git but doesn't allow overwriting, hence the need to
-# do this step first
-#shutil.copytree( outgit_directory, all_libs_nogit_directory_local,
-#                 ignore=shutil.ignore_patterns('*.git*') )
-
-
 # Then clone/update the git repo
 try:
     # If repo doesn't exist, check it out
