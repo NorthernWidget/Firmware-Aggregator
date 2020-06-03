@@ -60,38 +60,6 @@ for remote_repo in repo_paths:
         outmsg = g.pull()
         print("Updates pulled from", outfolder_name, "-", outmsg)
        
-
-# List of all files with code
-
-# Based on:
-# https://stackoverflow.com/questions/12420779/simplest-way-to-get-the-equivalent-of-find-in-python
-def listfiles(folder=os.getcwd(), extensions=None, filenames=None):
-    outlist = []
-    if extensions is not None:
-        if type(extensions) is str:
-            extensions = [extensions]
-        for root, folders, files in os.walk(folder):
-            for _filename in folders + files:
-                if extensions == '*':
-                    outlist.append(os.path.join(root, _filename))
-                else:
-                    for extension in extensions:
-                        if extension in _filename:
-                            outlist.append(os.path.join(root, _filename))
-    if filenames is not None:
-        if type(filenames) is str:
-            filenames = [filenames]
-        for root, folders, files in os.walk(folder):
-            for _filename in folders + files:
-                if filenames == '*':
-                    outlist.append(os.path.join(root, _filename))
-                else:
-                    for filename in filenames:
-                        if _filename == filename:
-                            outlist.append(os.path.join(root, filename))
-        
-    return outlist
-
 # Make sure not to double count in case root directory is shared
 # between inputs and outputs
 code_files = listfiles(folder=os.getcwd() + os.sep + outgit_directory, extensions=['.cpp', '.h'])
