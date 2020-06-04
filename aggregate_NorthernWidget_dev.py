@@ -17,8 +17,7 @@ from datetime import datetime
 
 outgit_directory = 'NWraw'
 all_libs_directory_git = 'NorthernWidget-libraries'
-all_libs_gitpath = 'https://github.com/NorthernWidget-Skunkworks/NorthernWidget-libraries.git' # Make this beforehand
-git_remoteurl = 'git@github.com:NorthernWidget-Skunkworks/NorthernWidget-libraries.git'
+git_remoteurl = 'git@github.com:NorthernWidget/NorthernWidget-libraries.git'
 
 # If output path is not yet made
 try:
