@@ -35,8 +35,21 @@ https://github.com/NorthernWidget-Skunkworks/Margay_Library.git
 https://github.com/NorthernWidget-Skunkworks/Resnik_Library.git
 
 # Sensor libraries
+# Water pressure (depth) and temperature
 https://github.com/NorthernWidget/TP-Downhole_Library.git
+https://github.com/NorthernWidget-Skunkworks/Walrus_Library.git
+# Range
 https://github.com/NorthernWidget/Maxbotix_Library.git
+https://github.com/NorthernWidget-Skunkworks/Symbiont-LiDAR_Library.git
+# Solar radiation
 https://github.com/NorthernWidget-Skunkworks/Dyson_Library.git
+# Counter (for, e.g., rain bucket, anemometer)
 https://github.com/NorthernWidget-Skunkworks/Tally_Library.git
+# Atmospheric temperature, relative humidity, and (sometimes) pressure
+https://github.com/NorthernWidget-Skunkworks/T9602_Library.git
+https://github.com/NorthernWidget-Skunkworks/Haar_Library.git
+https://github.com/NorthernWidget/BME_Library.git
 
+# Sensor libraries: no longer in common use, so commented out but here to remember
+# MS5803 -- superceded by TPDH and Walrus libraries but still useful in general
+# https://github.com/NorthernWidget/MS5803.git
