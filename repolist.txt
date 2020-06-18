@@ -11,6 +11,10 @@
 https://github.com/adafruit/Adafruit_ADS1X15.git
 https://github.com/greiman/SdFat.git
 
+# Sensor firmware library dependencies
+https://github.com/felias-fogg/SlowSoftI2CMaster
+https://github.com/felias-fogg/SlowSoftWire
+
 
 ################
 # NW LIBRARIES #
