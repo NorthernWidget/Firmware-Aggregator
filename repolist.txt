@@ -9,7 +9,8 @@
 
 # On-board component libraries
 https://github.com/adafruit/Adafruit_ADS1X15.git
-https://github.com/greiman/SdFat.git
+# Leave SdFat alone until we make our code compatible with Version 2
+# https://github.com/greiman/SdFat.git
 
 # Sensor firmware library dependencies
 https://github.com/felias-fogg/SlowSoftI2CMaster
@@ -37,7 +38,8 @@ https://github.com/NorthernWidget/MS5803.git
 
 # Data logger libraries
 https://github.com/NorthernWidget-Skunkworks/Margay_Library.git
-https://github.com/NorthernWidget-Skunkworks/Resnik_Library.git
+# Leave Resnik alone until Okapi transition is completed
+# https://github.com/NorthernWidget-Skunkworks/Resnik_Library.git
 
 # Sensor libraries
 # Water pressure (depth) and temperature
