@@ -40,6 +40,7 @@ https://github.com/NorthernWidget/MS5803.git
 https://github.com/NorthernWidget-Skunkworks/Margay_Library.git
 # Leave Resnik alone until Okapi transition is completed
 # https://github.com/NorthernWidget-Skunkworks/Resnik_Library.git
+https://github.com/NorthernWidget-Skunkworks/Okapi_Library.git
 
 # Sensor libraries
 # Water pressure (depth) and temperature
