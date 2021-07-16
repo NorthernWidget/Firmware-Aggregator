@@ -30,7 +30,7 @@ https://github.com/NorthernWidget/BME_Library.git
 https://github.com/NorthernWidget/VEML6075.git
 https://github.com/NorthernWidget/VEML6030.git
 https://github.com/NorthernWidget/MS5803.git
-https://github.com/NorthernWidget/LTC2495.git
+#https://github.com/NorthernWidget/LTC2495.git # Not organized per standards
 https://github.com/NorthernWidget/TCA9534.git
 https://github.com/NorthernWidget-Skunkworks/MCP23018.git
 https://github.com/NorthernWidget-Skunkworks/MCP4725.git
