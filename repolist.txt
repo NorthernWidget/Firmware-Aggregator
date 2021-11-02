@@ -49,7 +49,7 @@ https://github.com/NorthernWidget-Skunkworks/Walrus_Library.git
 https://github.com/NorthernWidget/Maxbotix_Library.git
 https://github.com/NorthernWidget-Skunkworks/Symbiont-LiDAR_Library.git
 # Solar radiation
-https://github.com/NorthernWidget-Skunkworks/Dyson_Library.git
+https://github.com/NorthernWidget-Skunkworks/Monarch_Library.git
 # Counter (for, e.g., rain bucket, anemometer)
 https://github.com/NorthernWidget-Skunkworks/Tally_Library.git
 # Atmospheric temperature, relative humidity, and (sometimes) pressure
