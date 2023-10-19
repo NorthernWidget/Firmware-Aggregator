@@ -9,8 +9,7 @@
 
 # On-board component libraries
 https://github.com/adafruit/Adafruit_ADS1X15.git
-# Leave SdFat alone until we make our code compatible with Version 2
-# https://github.com/greiman/SdFat.git
+https://github.com/greiman/SdFat.git
 
 # Sensor firmware library dependencies
 https://github.com/felias-fogg/SlowSoftI2CMaster
